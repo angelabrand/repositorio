@@ -1,53 +1,66 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 :root {
---primary: #ffffff;
---secondary: #212429;
-}
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: "Montserrat", sans-serif; 
-  list-style: none;
+    --primary: #ffffff;
+    --secondary: #212429;
 }
 
-@media (min-width: 600px) and (max-width: 768px) {
-    body {
-    background-color: var(--primary);
-}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+    list-style: none;
 }
 
 .header {
     background-color: var(--primary);
     font-size: 16px;
     display: flex;
-    flex-flow: row wrap;
     justify-content: space-between;
     align-items: center;
-    padding:20px 10%;
-    width: 100%;
+    padding: 20px 10%;
     height: 80px min-content;
-    border-bottom-style:solid;
+    border-bottom-style: solid;
     border-width: 1px;
     border-color: var(--secondary);
- }
+}
 
- .navlinks li{
+.navlinks li {
     display: inline-block;
-    padding: 0px 10px ;
- } 
+    padding: 0px 10px;
+}
 
- 
-
- .icons {
+.icons {
     display: inline-flex;
     gap: 20px;
- }
 
- .menu{
+}
+
+@media (max-width: 800px) {
+    .navlinks {
+        display: none;
+    }
+
+    .icons {
+        display: none;
+    }
+
+    .header {
+        position: fixed;
+        width: 100%;
+        padding: 20px 20px;
+        justify-content: center;
+
+    }
+
+}
+
+
+.menu {
     display: block;
     cursor: pointer;
- }
+}
 
 a {
     text-decoration: none;
@@ -55,34 +68,103 @@ a {
 }
 
 a:hover {
-    text-decoration:overline;
+    text-decoration: underline;
 }
 
 h1 {
     display: block;
     font-size: 32px;
-    padding: 40px 70px;
+    padding: 70px 70px;
 }
 
-.productos {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    grid-auto-flow: row;
-    gap: 20px;
-    justify-items: center;
-    text-align: justify;
-  }
+@media (max-width:700px) {
+    h1 {
+        padding-top: 30%;
+        text-align: center;
+    }
+}
 
-.p {
-    display: inline-block;
+#productos {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    align-items: center;
+    gap: 30px 30px;
+}
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: auto;
+        gap: 30px;
+    }
+}
+
+#productos img {
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.descripcion {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 800px) {
+    .descripcion {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
 }
 
 .precio {
-    display: inline-block;
     font-weight: 600;
 }
 
-img {
-    border-radius: 12px;
-    
+.footer {
+    background-color: var(--secondary);
+    padding: 20px 0;
+
+}
+
+.footer p {
+    color: var(--primary);
+}
+
+.containers {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: space-between;
+}
+
+@media (max-width:700px) {
+    .containers {
+        grid-template-columns: auto;
+        justify-content: center;
+        gap: 10px;
+    }
+}
+
+#footdescription {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer img {
+    background-color: var(--primary);
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    margin: 10px;
+    padding: 12px 0;
 }
