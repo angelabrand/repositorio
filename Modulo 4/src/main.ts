@@ -77,3 +77,28 @@ const botonReset = document.getElementById("btn-reset");
 if (botonReset !== null && botonReset !== undefined) {
   botonReset.addEventListener("click", resetearContador);
 }
+
+function cambiarTurno() {
+  let turnoActual = cogerNumero();
+  if (turnoActual !== null && turnoActual !== undefined) {
+    let turnoCambiado;
+
+    const resultadoElement = document.getElementById("caja-texto");
+    if (resultadoElement !== null && resultadoElement !== undefined) {
+      turnoCambiado = parseInt(resultadoElement.innerHTML);
+      let cajaTurno = document.getElementById("numero-turno");
+      if (cajaTurno !== null && cajaTurno !== undefined) {
+        if (turnoCambiado < 10) {
+          cajaTurno.innerHTML = "0" + String(turnoCambiado);
+        } else {
+          cajaTurno.innerHTML = String(turnoCambiado);
+        }
+      }
+    }
+  }
+}
+
+const botonCambio = document.getElementById("btn-cambiar");
+if (botonCambio !== null && botonCambio !== undefined) {
+  botonCambio.addEventListener("click", cambiarTurno);
+}

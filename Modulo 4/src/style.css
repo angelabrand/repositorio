@@ -25,6 +25,13 @@
   color: #1a1a1a;
   text-align: center;
 }
+#caja-texto {
+  color: black;
+}
+.cambio-turno {
+  display: block;
+  border-color: #ff4949;
+}
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
