@@ -29,13 +29,12 @@ function siguienteTurno() {
 
     const resultadoElement = document.getElementById("numero-turno");
 
-    if (resultadoElement !== null && resultadoElement !== undefined) {
-      resultadoElement.innerHTML = String(turnoSiguiente);
-      if (turnoSiguiente < 10) {
-        resultadoElement.innerHTML = "0" + String(turnoSiguiente);
-      } else {
-        resultadoElement.innerHTML = String(turnoSiguiente);
-      }
+    if (
+      resultadoElement !== null &&
+      resultadoElement !== undefined &&
+      resultadoElement instanceof HTMLHeadingElement
+    ) {
+      resultadoElement.innerHTML = String(turnoSiguiente).padStart(2, "0");
     }
   }
 }
@@ -51,12 +50,12 @@ function anteriorTurno() {
     let turnoAnterior = turnoActual - 1;
 
     const resultadoElement = document.getElementById("numero-turno");
-    if (resultadoElement !== null && resultadoElement !== undefined) {
-      if (turnoAnterior < 10) {
-        resultadoElement.innerHTML = "0" + String(turnoAnterior);
-      } else {
-        resultadoElement.innerHTML = String(turnoAnterior);
-      }
+    if (
+      resultadoElement !== null &&
+      resultadoElement !== undefined &&
+      resultadoElement instanceof HTMLHeadingElement
+    ) {
+      resultadoElement.innerHTML = String(turnoAnterior).padStart(2, "0");
     }
   }
 }
@@ -79,21 +78,21 @@ if (botonReset !== null && botonReset !== undefined) {
 }
 
 function cambiarTurno() {
-  let turnoActual = cogerNumero();
-  if (turnoActual !== null && turnoActual !== undefined) {
-    let turnoCambiado;
-
-    const resultadoElement = document.getElementById("caja-texto");
-    if (resultadoElement !== null && resultadoElement !== undefined) {
-      turnoCambiado = parseInt(resultadoElement.innerHTML);
-      let cajaTurno = document.getElementById("numero-turno");
-      if (cajaTurno !== null && cajaTurno !== undefined) {
-        if (turnoCambiado < 10) {
-          cajaTurno.innerHTML = "0" + String(turnoCambiado);
-        } else {
-          cajaTurno.innerHTML = String(turnoCambiado);
-        }
-      }
+  let turnoCambiado = 0;
+  const resultadoElement = document.getElementById("caja-texto");
+  if (
+    resultadoElement !== null &&
+    resultadoElement !== undefined &&
+    resultadoElement instanceof HTMLInputElement
+  ) {
+    turnoCambiado = parseInt(resultadoElement.value);
+    let cajaTurno = document.getElementById("numero-turno");
+    if (
+      cajaTurno !== null &&
+      cajaTurno !== undefined &&
+      cajaTurno instanceof HTMLHeadingElement
+    ) {
+      cajaTurno.innerHTML = String(turnoCambiado).padStart(2, "0");
     }
   }
 }
