@@ -15,7 +15,7 @@ interface Carta {
   src: string;
 }
 const listaCartas: Carta[] = [
-  { valor: "As", puntuacion: 7, src: "./img/1_as-copas.jpg" },
+  { valor: "As", puntuacion: 1, src: "./img/1_as-copas.jpg" },
   { valor: "Dos", puntuacion: 2, src: "./img/2_dos-copas.jpg" },
   { valor: "Tres", puntuacion: 3, src: "./img/3_tres-copas.jpg" },
   { valor: "Cuatro", puntuacion: 4, src: "./img/4_cuatro-copas.jpg" },
@@ -47,10 +47,12 @@ const dameCarta = () => {
     const nuevaPuntuacion = marcadorPuntuacion;
     puntuacion.innerText = `${nuevaPuntuacion}`;
     if (nuevaPuntuacion > 7.5) {
-      puntuacion.innerHTML = "GAME OVER";
-    }
-    if (nuevaPuntuacion == 7.5) {
-      puntuacion.innerHTML = "HAS GANADO!";
+      let gameOver = "GAME OVER";
+      puntuacion.innerHTML = gameOver;
+      const btnCerrado = document.getElementById("btn-coger");
+      if (btnCerrado && btnCerrado instanceof HTMLButtonElement) {
+        btnCerrado.disabled = true;
+      }
     }
   }
 };
@@ -66,9 +68,23 @@ const finalizar = () => {
     puntuacion !== undefined &&
     puntuacion instanceof HTMLParagraphElement
   ) {
-    puntuacion.innerHTML = "¡Te has quedado cerca! Sigue intentándolo";
+    const nuevaPuntuacion = marcadorPuntuacion;
+    puntuacion.innerText = `${nuevaPuntuacion}`;
+    if (nuevaPuntuacion < 4) {
+      puntuacion.innerHTML = "Has sido muy conservador";
+    }
+    if (nuevaPuntuacion == 5) {
+      puntuacion.innerHTML = "Te ha entrado el canguelo eh?";
+    }
+    if (nuevaPuntuacion == 6 || nuevaPuntuacion == 7) {
+      puntuacion.innerHTML = "Casi casi...";
+    }
+    if (nuevaPuntuacion == 7.5) {
+      puntuacion.innerHTML = "¡Lo has clavado! ¡Enhorabuena!";
+    }
   }
 };
+
 const btnFinalizar = document.getElementById("btn-fin");
 if (btnFinalizar !== null && btnCoger !== undefined) {
   btnFinalizar.addEventListener("click", finalizar);
@@ -81,6 +97,10 @@ function reinciarPartida() {
   let divPuntuacion = document.getElementById("score");
   if (divPuntuacion !== null && divPuntuacion !== undefined) {
     divPuntuacion.innerHTML = String((marcadorPuntuacion = 0));
+  }
+  const btnAbierto = document.getElementById("btn-coger");
+  if (btnAbierto && btnAbierto instanceof HTMLButtonElement) {
+    btnAbierto.disabled = false;
   }
 }
 
