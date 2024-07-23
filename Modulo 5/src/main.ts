@@ -59,10 +59,19 @@ const btnCoger = document.getElementById("btn-coger");
 if (btnCoger !== null && btnCoger !== undefined) {
   btnCoger.addEventListener("click", dameCarta);
 }
-
+const finalizar = () => {
+  let puntuacion = document.getElementById("score");
+  if (
+    puntuacion !== null &&
+    puntuacion !== undefined &&
+    puntuacion instanceof HTMLParagraphElement
+  ) {
+    puntuacion.innerHTML = "¡Te has quedado cerca! Sigue intentándolo";
+  }
+};
 const btnFinalizar = document.getElementById("btn-fin");
 if (btnFinalizar !== null && btnCoger !== undefined) {
-  btnFinalizar.addEventListener("click", dameCarta);
+  btnFinalizar.addEventListener("click", finalizar);
 }
 function reinciarPartida() {
   let divArriba = document.getElementById("bocaArriba");
