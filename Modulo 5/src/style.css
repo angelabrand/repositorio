@@ -1,46 +1,57 @@
-.turno-display {
+header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.marco-puntuacion {
+  display: inline-flex;
+  align-items: center;
+}
+#score {
+  font-size: 3rem;
+  font-weight: 500;
+  padding-left: 10px;
+}
+
+#btn-restart {
+  background-color: #b60439;
+}
+
+#btn-restart:hover {
+  background-color: #f50b2a;
+}
+.cartas {
+  display: inline-flex;
+  justify-items: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid;
+  border-color: gray;
+}
+#bocaArriba {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.buttons {
+  display: flex;
   justify-content: center;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+  gap: 20px;
 }
-
-#numero-turno {
-  font-size: 6rem;
-  color: #cb1313;
-  font-weight: bold;
-  margin: 0;
-}
-
-.texto-turno {
-  font-size: 1.7rem;
-  font-weight: bold;
-  margin: 0;
-  font-style: italic;
-  color: #1a1a1a;
-  text-align: center;
-}
-#caja-texto {
-  color: black;
-}
-.cambio-turno {
-  display: block;
-  border-color: #ff4949;
-}
-
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: rgba(255, 0, 0, 0.87);
+  background-color: #ffffff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -61,10 +72,10 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #f9f9ff;
 }
 
 h1 {
@@ -109,13 +120,13 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #69ac2a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 
 button:hover {
-  background-color: #ff6464;
+  background-color: #2b682b;
 }
 
 button:focus,

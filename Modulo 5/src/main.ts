@@ -1,103 +1,81 @@
-/* Queremos implementar una pantalla en la que aparezca un display con el turno actual de una clínica y un botón para pasar al siguiente turno y otro para volver al anterior.
+//heading puntuacion
 
-A implementar:
-
-Básico:
-En grande se muestra el turno.
-El operario puede ir dándole a siguiente o anterior y el turno cambia.
-Además de esto vamos a añadir un botón de reset que pone el turno a 0.
-Avanzado:
-Como challenge puedes añadir una caja de texto y un botón que permita cambiar el turno a un valor que ponga el operario.
-Challenge:
-Sea el número que sea, lo quiero mostrar siempre con dos digitos (es decir el 1 -> 01, el 2 -> 02, el 10 -> 10, el 11 -> 11, etc), investiga como puedes formatear un número para que siempre tenga dos dígitos.
-Pista: Puedes usar la función padStart, la cual nos ayuda a añadir ceros o cualquier otro carácter que queramos al principio de una cadena de texto..
-
-Si lo implementas en TypeScript en modo estricto, mejor que mejor.*/
-
-function cogerNumero() {
-  let numeroTurno = document.getElementById("numero-turno");
-  if (numeroTurno !== null && numeroTurno !== undefined) {
-    return parseInt(numeroTurno.innerHTML);
+let marcadorPuntuacion = 0;
+const muestraPuntuacion = () => {
+  let divPuntuacion = document.getElementById("score");
+  if (divPuntuacion !== null && divPuntuacion !== undefined) {
+    console.log(muestraPuntuacion);
+    divPuntuacion.innerHTML = String(marcadorPuntuacion);
   }
-  return null;
+};
+
+interface Carta {
+  valor: string;
+  puntuacion: number;
+  src: string;
 }
+const listaCartas: Carta[] = [
+  { valor: "As", puntuacion: 7, src: "./img/1_as-copas.jpg" },
+  { valor: "Dos", puntuacion: 2, src: "./img/2_dos-copas.jpg" },
+  { valor: "Tres", puntuacion: 3, src: "./img/3_tres-copas.jpg" },
+  { valor: "Cuatro", puntuacion: 4, src: "./img/4_cuatro-copas.jpg" },
+  { valor: "Cinco", puntuacion: 5, src: "./img/5_cinco-copas.jpg" },
+  { valor: "Seis", puntuacion: 6, src: "./img/6_seis-copas.jpg" },
+  { valor: "Siete", puntuacion: 7, src: "./img/7_siete-copas.jpg" },
+  { valor: "Sota", puntuacion: 0.5, src: "./img/10_sota-copas.jpg" },
+  { valor: "Caballo", puntuacion: 0.5, src: "./img/11_caballo-copas.jpg" },
+  { valor: "Rey", puntuacion: 0.5, src: "./img/12_rey-copas.jpg" },
+];
 
-function siguienteTurno() {
-  let turnoActual = cogerNumero();
-  if (turnoActual !== null) {
-    let turnoSiguiente = turnoActual + 1;
+//splice devuelve un array con los elementos eliminados, así que seleccionamos el primer (y único) elemento devuelto.
 
-    const resultadoElement = document.getElementById("numero-turno");
-
-    if (
-      resultadoElement !== null &&
-      resultadoElement !== undefined &&
-      resultadoElement instanceof HTMLHeadingElement
-    ) {
-      resultadoElement.innerHTML = String(turnoSiguiente).padStart(2, "0");
-    }
+const dameCarta = () => {
+  let numero = Math.floor(Math.random() * listaCartas.length);
+  let carta = listaCartas.splice(numero, 1)[0];
+  let divArriba = document.getElementById("bocaArriba");
+  if (divArriba !== null && divArriba !== undefined) {
+    divArriba.innerHTML =
+      divArriba.innerHTML + `<div><img src="${carta.src}" alt="" /></div>`;
   }
-}
-
-const botonSiguiente = document.getElementById("btn-siguiente-turno");
-if (botonSiguiente !== null && botonSiguiente !== undefined) {
-  botonSiguiente.addEventListener("click", siguienteTurno);
-}
-
-function anteriorTurno() {
-  let turnoActual = cogerNumero();
-  if (turnoActual !== null && turnoActual > 0) {
-    let turnoAnterior = turnoActual - 1;
-
-    const resultadoElement = document.getElementById("numero-turno");
-    if (
-      resultadoElement !== null &&
-      resultadoElement !== undefined &&
-      resultadoElement instanceof HTMLHeadingElement
-    ) {
-      resultadoElement.innerHTML = String(turnoAnterior).padStart(2, "0");
-    }
-  }
-}
-
-const botonAnterior = document.getElementById("btn-anterior-turno");
-if (botonAnterior !== null && botonAnterior !== undefined) {
-  botonAnterior.addEventListener("click", anteriorTurno);
-}
-
-function resetearContador() {
-  const resultadoElement = document.getElementById("numero-turno");
-  if (resultadoElement !== null && resultadoElement !== undefined) {
-    resultadoElement.innerHTML = "00";
-  }
-}
-
-const botonReset = document.getElementById("btn-reset");
-if (botonReset !== null && botonReset !== undefined) {
-  botonReset.addEventListener("click", resetearContador);
-}
-
-function cambiarTurno() {
-  let turnoCambiado = 0;
-  const resultadoElement = document.getElementById("caja-texto");
+  marcadorPuntuacion += carta.puntuacion;
+  let puntuacion = document.getElementById("score");
   if (
-    resultadoElement !== null &&
-    resultadoElement !== undefined &&
-    resultadoElement instanceof HTMLInputElement
+    puntuacion !== null &&
+    puntuacion !== undefined &&
+    puntuacion instanceof HTMLParagraphElement
   ) {
-    turnoCambiado = parseInt(resultadoElement.value);
-    let cajaTurno = document.getElementById("numero-turno");
-    if (
-      cajaTurno !== null &&
-      cajaTurno !== undefined &&
-      cajaTurno instanceof HTMLHeadingElement
-    ) {
-      cajaTurno.innerHTML = String(turnoCambiado).padStart(2, "0");
+    const nuevaPuntuacion = marcadorPuntuacion;
+    puntuacion.innerText = `${nuevaPuntuacion}`;
+    if (nuevaPuntuacion > 7.5) {
+      puntuacion.innerHTML = "GAME OVER";
     }
+    if (nuevaPuntuacion == 7.5) {
+      puntuacion.innerHTML = "HAS GANADO!";
+    }
+  }
+};
+
+const btnCoger = document.getElementById("btn-coger");
+if (btnCoger !== null && btnCoger !== undefined) {
+  btnCoger.addEventListener("click", dameCarta);
+}
+
+const btnFinalizar = document.getElementById("btn-fin");
+if (btnFinalizar !== null && btnCoger !== undefined) {
+  btnFinalizar.addEventListener("click", dameCarta);
+}
+function reinciarPartida() {
+  let divArriba = document.getElementById("bocaArriba");
+  if (divArriba !== null && divArriba !== undefined) {
+    divArriba.innerHTML = String("");
+  }
+  let divPuntuacion = document.getElementById("score");
+  if (divPuntuacion !== null && divPuntuacion !== undefined) {
+    divPuntuacion.innerHTML = String((marcadorPuntuacion = 0));
   }
 }
 
-const botonCambio = document.getElementById("btn-cambiar");
-if (botonCambio !== null && botonCambio !== undefined) {
-  botonCambio.addEventListener("click", cambiarTurno);
+const btnReiniciar = document.getElementById("btn-restart");
+if (btnReiniciar !== null && btnReiniciar !== undefined) {
+  btnReiniciar.addEventListener("click", reinciarPartida);
 }
