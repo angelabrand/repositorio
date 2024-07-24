@@ -9,6 +9,13 @@ const muestraPuntuacion = () => {
   }
 };
 
+const btnCerrado = () => {
+  const btnCerrado = document.getElementById("btn-coger");
+  if (btnCerrado && btnCerrado instanceof HTMLButtonElement) {
+    btnCerrado.disabled = true;
+  }
+};
+
 interface Carta {
   valor: string;
   puntuacion: number;
@@ -49,10 +56,7 @@ const dameCarta = () => {
     if (nuevaPuntuacion > 7.5) {
       let gameOver = "GAME OVER";
       puntuacion.innerHTML = gameOver;
-      const btnCerrado = document.getElementById("btn-coger");
-      if (btnCerrado && btnCerrado instanceof HTMLButtonElement) {
-        btnCerrado.disabled = true;
-      }
+      btnCerrado();
     }
   }
 };
@@ -89,6 +93,7 @@ const btnFinalizar = document.getElementById("btn-fin");
 if (btnFinalizar !== null && btnCoger !== undefined) {
   btnFinalizar.addEventListener("click", finalizar);
 }
+
 function reinciarPartida() {
   let divArriba = document.getElementById("bocaArriba");
   if (divArriba !== null && divArriba !== undefined) {
