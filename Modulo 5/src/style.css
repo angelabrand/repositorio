@@ -29,8 +29,7 @@ header {
   align-items: center;
   gap: 10px;
   padding: 10px;
-  border: 1px solid;
-  border-color: gray;
+  padding-left: 30px;
 }
 #bocaArriba {
   display: inline-flex;
