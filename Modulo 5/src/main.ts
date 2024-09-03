@@ -63,7 +63,7 @@ interface Carta {
   src: string;
 }
 
-const listaCartas: Carta[] = [
+let listaCartas: Carta[] = [
   { valor: "As", puntuacion: 1, src: "./img/1_as-copas.jpg" },
   { valor: "Dos", puntuacion: 2, src: "./img/2_dos-copas.jpg" },
   { valor: "Tres", puntuacion: 3, src: "./img/3_tres-copas.jpg" },
@@ -76,7 +76,10 @@ const listaCartas: Carta[] = [
   { valor: "Rey", puntuacion: 0.5, src: "./img/12_rey-copas.jpg" },
 ];
 
-let cartasDentroLista = listaCartas;
+let cartasDentroLista: Carta[] = listaCartas.slice();
+
+function reiniciarLista() {
+  listaCartas = cartasDentroLista.slice() }
 
 //splice devuelve un array con los elementos eliminados, así que seleccionamos el primer (y único) elemento devuelto.
 
@@ -108,7 +111,6 @@ const dameCarta = () => {
   }
 };
 
-// const listaNueva = ()
 
 const btnCoger = document.getElementById("btn-coger");
 if (btnCoger !== null && btnCoger !== undefined) {
@@ -124,27 +126,32 @@ const finalizar = () => {
   ) {
     const nuevaPuntuacion = marcadorPuntuacion;
     puntuacion.innerText = `${nuevaPuntuacion}`;
-    if (nuevaPuntuacion < 4 || nuevaPuntuacion > 0) {
-      puntuacion.innerHTML = "Has sido muy conservador";
-      btnCerrado();
-      BtnOtraCartaAbierto();
-    }
-    if (nuevaPuntuacion == 5) {
-      puntuacion.innerHTML = "Te ha entrado el canguelo eh?";
-      btnCerrado();
-      BtnOtraCartaAbierto();
-    }
-    if (nuevaPuntuacion == 6 || nuevaPuntuacion == 7) {
-      puntuacion.innerHTML = "Casi casi...";
-      btnCerrado();
-      BtnOtraCartaAbierto();
-    }
-    if (nuevaPuntuacion == 7.5) {
-      btnCerrado();
-      puntuacion.innerHTML = "¡Lo has clavado! ¡Enhorabuena!";
-    }
+    switch (true) {
+      case nuevaPuntuacion < 4 && nuevaPuntuacion > 0:
+        puntuacion.innerHTML = "Has sido muy conservador";
+        btnCerrado();
+        BtnOtraCartaAbierto();
+        break;
+
+      case nuevaPuntuacion == 5 || nuevaPuntuacion < 6: 
+        puntuacion.innerHTML = "Te ha entrado el canguelo eh?";
+        btnCerrado();
+        BtnOtraCartaAbierto();
+        break;
+
+      case nuevaPuntuacion == 6 || nuevaPuntuacion == 7:
+        puntuacion.innerHTML = "Casi casi...";
+        btnCerrado();
+        BtnOtraCartaAbierto();
+        break;
+
+      case nuevaPuntuacion == 7.5:
+        btnCerrado();
+        puntuacion.innerHTML = "¡Lo has clavado! ¡Enhorabuena!";
+        break;
   }
-};
+}
+}
 
 const otraCarta = () => {
   let numero = Math.floor(Math.random() * listaCartas.length);
@@ -171,7 +178,7 @@ function reinciarPartida() {
   reinicioMarcador();
   reinicioBotones();
   BtnOtraCartaCerrado();
-  //listaNueva();
+  reiniciarLista();
 }
 
 const btnReiniciar = document.getElementById("btn-restart");
