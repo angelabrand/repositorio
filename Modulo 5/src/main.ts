@@ -2,7 +2,6 @@ let marcadorPuntuacion = 0;
 const muestraPuntuacion = () => {
   let divPuntuacion = document.getElementById("score");
   if (divPuntuacion !== null && divPuntuacion !== undefined) {
-    console.log(muestraPuntuacion);
     divPuntuacion.innerHTML = String(marcadorPuntuacion);
   }
 };
@@ -55,8 +54,6 @@ const reinicioMarcador = () => {
 
 BtnOtraCartaCerrado();
 
-//////////////////////////////////////////////////
-
 interface Carta {
   valor: string;
   puntuacion: number;
@@ -79,88 +76,139 @@ let listaCartas: Carta[] = [
 let cartasDentroLista: Carta[] = listaCartas.slice();
 
 function reiniciarLista() {
-  listaCartas = cartasDentroLista.slice() }
+  listaCartas = cartasDentroLista.slice();
+}
 
-//splice devuelve un array con los elementos eliminados, así que seleccionamos el primer (y único) elemento devuelto.
+const obtenerNumeroAleatorio = () => {
+  return Math.floor(Math.random() * listaCartas.length);
+};
 
-const dameCarta = () => {
-  let numero = Math.floor(Math.random() * listaCartas.length);
-  let carta = listaCartas.splice(numero, 1)[0];
-  BtnOtraCartaCerrado();
-  let divArriba = document.getElementById("bocaArriba");
-  if (divArriba !== null && divArriba !== undefined) {
-    divArriba.innerHTML =
-      divArriba.innerHTML + `<div><img src="${carta.src}" alt="" /></div>`;
+const obtenerUrlBack = () => {
+  return "./img/back.jpg";
+};
+
+const obtenerUrlCarta = (carta: number) => {
+  switch (carta) {
+    case 0:
+      return "./img/1_as-copas.jpg";
+    case 1:
+      return "./img/2_dos-copas.jpg";
+    case 2:
+      return "./img/3_tres-copas.jpg";
+    case 3:
+      return "./img/4_cuatro-copas.jpg";
+    case 4:
+      return "./img/5_cinco-copas.jpg";
+    case 5:
+      return "./img/6_seis-copas.jpg";
+    case 6:
+      return "./img/7_siete-copas.jpg";
+    case 7:
+      return "./img/10_sota-copas.jpg";
+    case 8:
+      return "./img/11_caballo-copas.jpg";
+    case 9:
+      return "./img/12_rey-copas.jpg";
+    default:
+      return obtenerUrlBack();
   }
-  marcadorPuntuacion += carta.puntuacion;
-  let puntuacion = document.getElementById("score");
+};
+
+const pintarUrlCarta = (urlCarta: string) => {
+  const elementoImagen = document.getElementById("imagenCarta");
 
   if (
-    puntuacion !== null &&
-    puntuacion !== undefined &&
-    puntuacion instanceof HTMLParagraphElement
+    elementoImagen !== null &&
+    elementoImagen !== undefined &&
+    elementoImagen instanceof HTMLImageElement
   ) {
-    const nuevaPuntuacion = marcadorPuntuacion;
-    puntuacion.innerText = `${nuevaPuntuacion}`;
-    if (nuevaPuntuacion > 7.5) {
-      let gameOver = "GAME OVER";
-      puntuacion.innerHTML = gameOver;
-      btnCerrado();
+    elementoImagen.src = urlCarta;
+  }
+};
+
+const obtenerPuntosCarta = (carta: number) => {
+  if (carta >= 7) {
+    return 0.5;
+  }
+
+  return carta + 1;
+};
+
+const sumarPuntosCarta = (puntos: number) => {
+  return marcadorPuntuacion + puntos;
+};
+
+const actualizarPuntuacion = (puntosActuales: number) => {
+  marcadorPuntuacion = puntosActuales;
+};
+
+const plantarPartida = () => {
+  let divPuntuacion = document.getElementById("score");
+  btnCerrado();
+  BtnOtraCartaAbierto();
+  if (
+    divPuntuacion !== null &&
+    divPuntuacion !== undefined &&
+    divPuntuacion instanceof HTMLParagraphElement
+  ) {
+    if (marcadorPuntuacion < 4) {
+      divPuntuacion.innerHTML = "Has sido muy conservador";
+    }
+    if (marcadorPuntuacion == 5) {
+      divPuntuacion.innerHTML = "Te ha entrado el canguelo eh?";
+    }
+    if (marcadorPuntuacion == 6 || marcadorPuntuacion == 7) {
+      divPuntuacion.innerHTML = "Casi casi...";
+    }
+    if (marcadorPuntuacion == 7.5) {
+      divPuntuacion.innerHTML = "¡Lo has clavado! ¡Enhorabuena!";
       BtnOtraCartaCerrado();
     }
   }
 };
-
-
-const btnCoger = document.getElementById("btn-coger");
-if (btnCoger !== null && btnCoger !== undefined) {
-  btnCoger.addEventListener("click", dameCarta);
-}
-const finalizar = () => {
-  let puntuacion = document.getElementById("score");
+const finalizarPartida = () => {
+  let divPuntuacion = document.getElementById("score");
 
   if (
-    puntuacion !== null &&
-    puntuacion !== undefined &&
-    puntuacion instanceof HTMLParagraphElement
+    divPuntuacion !== null &&
+    divPuntuacion !== undefined &&
+    divPuntuacion instanceof HTMLParagraphElement
   ) {
-    const nuevaPuntuacion = marcadorPuntuacion;
-    puntuacion.innerText = `${nuevaPuntuacion}`;
-    switch (true) {
-      case nuevaPuntuacion < 4 && nuevaPuntuacion > 0:
-        puntuacion.innerHTML = "Has sido muy conservador";
-        btnCerrado();
-        BtnOtraCartaAbierto();
-        break;
-
-      case nuevaPuntuacion == 5 || nuevaPuntuacion < 6: 
-        puntuacion.innerHTML = "Te ha entrado el canguelo eh?";
-        btnCerrado();
-        BtnOtraCartaAbierto();
-        break;
-
-      case nuevaPuntuacion == 6 || nuevaPuntuacion == 7:
-        puntuacion.innerHTML = "Casi casi...";
-        btnCerrado();
-        BtnOtraCartaAbierto();
-        break;
-
-      case nuevaPuntuacion == 7.5:
-        btnCerrado();
-        puntuacion.innerHTML = "¡Lo has clavado! ¡Enhorabuena!";
-        break;
+    if (marcadorPuntuacion > 7.5) {
+      divPuntuacion.innerHTML = "GAME OVER";
+      btnCerrado();
+    }
   }
-}
+};
+
+const dameCarta = () => {
+  const carta = obtenerNumeroAleatorio();
+  const urlCarta = obtenerUrlCarta(carta);
+  pintarUrlCarta(urlCarta);
+  const puntosCarta = obtenerPuntosCarta(carta);
+  const puntosSumados = sumarPuntosCarta(puntosCarta);
+  actualizarPuntuacion(puntosSumados);
+  muestraPuntuacion();
+  finalizarPartida();
+};
+
+const btnCoger = document.getElementById("btn-coger");
+if (
+  btnCoger !== null &&
+  btnCoger !== undefined &&
+  btnCoger instanceof HTMLButtonElement
+) {
+  btnCoger.addEventListener("click", dameCarta);
 }
 
 const otraCarta = () => {
-  let numero = Math.floor(Math.random() * listaCartas.length);
-  let carta = listaCartas.splice(numero, 1)[0];
-  let divArriba = document.getElementById("bocaArriba");
-  if (divArriba !== null && divArriba !== undefined) {
-    divArriba.innerHTML =
-      divArriba.innerHTML + `<div><img src="${carta.src}" alt="" /></div>`;
-  }
+  const carta = obtenerNumeroAleatorio();
+  const urlCarta = obtenerUrlCarta(carta);
+  pintarUrlCarta(urlCarta);
+  const puntosCarta = obtenerPuntosCarta(carta);
+  const puntosSumados = sumarPuntosCarta(puntosCarta);
+  actualizarPuntuacion(puntosSumados);
+  muestraPuntuacion();
 };
 
 const BtnOtraCarta = document.getElementById("btn-saber");
@@ -169,8 +217,12 @@ if (BtnOtraCarta && BtnOtraCarta instanceof HTMLButtonElement) {
 }
 
 const btnFinalizar = document.getElementById("btn-fin");
-if (btnFinalizar !== null && btnCoger !== undefined) {
-  btnFinalizar.addEventListener("click", finalizar);
+if (
+  btnFinalizar !== null &&
+  btnCoger !== undefined &&
+  btnCoger instanceof HTMLButtonElement
+) {
+  btnFinalizar.addEventListener("click", plantarPartida);
 }
 
 function reinciarPartida() {
@@ -179,9 +231,14 @@ function reinciarPartida() {
   reinicioBotones();
   BtnOtraCartaCerrado();
   reiniciarLista();
+  pintarUrlCarta(obtenerUrlBack());
 }
 
 const btnReiniciar = document.getElementById("btn-restart");
-if (btnReiniciar !== null && btnReiniciar !== undefined) {
+if (
+  btnReiniciar !== null &&
+  btnReiniciar !== undefined &&
+  btnReiniciar instanceof HTMLButtonElement
+) {
   btnReiniciar.addEventListener("click", reinciarPartida);
 }
