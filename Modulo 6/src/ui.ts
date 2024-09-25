@@ -1,11 +1,18 @@
 
 import {
     obtenerUrlBack,
+    obtenerNumeroAleatorio,
+    reiniciarLista,
+
+
 } from './modelo'
 
 import {
     marcadorPuntuacion,
     marcardorACero,
+    actualizarPuntuacion,
+    sumarPuntosCarta,
+    obtenerPuntosCarta,
 } from './motor'
 
 export const muestraPuntuacion = () => {
@@ -103,7 +110,34 @@ export const muestraPuntuacion = () => {
   };
   
   
-  
+  export const dameCarta = () => {
+    const carta = obtenerNumeroAleatorio();
+    const urlCarta = obtenerUrlCarta(carta);
+    pintarUrlCarta(urlCarta);
+    const puntosCarta = obtenerPuntosCarta(carta);
+    const puntosSumados = sumarPuntosCarta(puntosCarta);
+    actualizarPuntuacion(puntosSumados);
+    muestraPuntuacion();
+    finalizarPartida();
+  };
+  export const otraCarta = () => {
+    const carta = obtenerNumeroAleatorio();
+    const urlCarta = obtenerUrlCarta(carta);
+    pintarUrlCarta(urlCarta);
+    const puntosCarta = obtenerPuntosCarta(carta);
+    const puntosSumados = sumarPuntosCarta(puntosCarta);
+    actualizarPuntuacion(puntosSumados);
+    muestraPuntuacion();
+  };
+ export function reinciarPartida() {
+    reinicioPanel();
+    reinicioMarcador();
+    reinicioBotones();
+    BtnOtraCartaCerrado();
+    reiniciarLista();
+    pintarUrlCarta(obtenerUrlBack());
+  }
+
  export const plantarPartida = () => {
     let divPuntuacion = document.getElementById("score");
     btnCerrado();

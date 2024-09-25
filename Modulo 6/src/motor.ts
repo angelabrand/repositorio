@@ -1,18 +1,3 @@
-import {
-    reiniciarLista,
-  obtenerNumeroAleatorio,
-  obtenerUrlBack,
-  } from './modelo'
-import {  
-    muestraPuntuacion,
-        BtnOtraCartaCerrado,
-        reinicioPanel,
-        reinicioBotones,
-        reinicioMarcador,
-        obtenerUrlCarta,
-        pintarUrlCarta,
-        finalizarPartida,
-  } from './ui'
 
  export let marcadorPuntuacion: number = 0
   export const marcardorACero =  () => {
@@ -36,30 +21,4 @@ export const obtenerPuntosCarta = (carta: number) => {
     marcadorPuntuacion = puntosActuales;
   };
 
-  export const dameCarta = () => {
-    const carta = obtenerNumeroAleatorio();
-    const urlCarta = obtenerUrlCarta(carta);
-    pintarUrlCarta(urlCarta);
-    const puntosCarta = obtenerPuntosCarta(carta);
-    const puntosSumados = sumarPuntosCarta(puntosCarta);
-    actualizarPuntuacion(puntosSumados);
-    muestraPuntuacion();
-    finalizarPartida();
-  };
-  export const otraCarta = () => {
-    const carta = obtenerNumeroAleatorio();
-    const urlCarta = obtenerUrlCarta(carta);
-    pintarUrlCarta(urlCarta);
-    const puntosCarta = obtenerPuntosCarta(carta);
-    const puntosSumados = sumarPuntosCarta(puntosCarta);
-    actualizarPuntuacion(puntosSumados);
-    muestraPuntuacion();
-  };
- export function reinciarPartida() {
-    reinicioPanel();
-    reinicioMarcador();
-    reinicioBotones();
-    BtnOtraCartaCerrado();
-    reiniciarLista();
-    pintarUrlCarta(obtenerUrlBack());
-  }
+ 

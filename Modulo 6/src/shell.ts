@@ -1,12 +1,9 @@
 
-import {
-    reinciarPartida,
-    otraCarta,
-    dameCarta,
-  } from './motor'
-  
   import {
-  plantarPartida
+    dameCarta,
+    reinciarPartida,
+  plantarPartida,
+  otraCarta
   } from './ui'
   
   
