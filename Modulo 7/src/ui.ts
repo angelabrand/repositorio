@@ -12,12 +12,8 @@ import {
   obtenerPuntosCarta,
 } from "./motor";
 
-export const plantarPartidaB = (numeroGenerado: number) => {
-  if (numeroGenerado > 7.5) {
-    return "GAME OVER";
-  } else if (numeroGenerado == 7.5) {
-    return "¡Lo has clavado!";
-  }
+export const plantarPartidaB = () => {
+  return plantarPartida()
 };
 
 export const muestraPuntuacion = () => {
@@ -126,7 +122,7 @@ export const dameCarta = () => {
   const puntosSumados = sumarPuntosCarta(puntosCarta);
   actualizarPuntuacion(puntosSumados);
   muestraPuntuacion();
-  finalizarPartida();
+  finalizarPartida(marcadorPuntuacion);
 };
 export const otraCarta = () => {
   const carta = obtenerNumeroAleatorio();
@@ -170,7 +166,7 @@ export const plantarPartida = () => {
     }
   }
 };
-export const finalizarPartida = () => {
+export const finalizarPartida = (marcadorPuntuacion: number) => {
   let divPuntuacion = document.getElementById("score");
 
   if (
