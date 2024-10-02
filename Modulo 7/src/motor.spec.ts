@@ -1,8 +1,6 @@
 import { vi } from "vitest";
 import { obtenerNumeroAleatorio } from "./modelo";
-import {obtenerPuntosCarta, sumarPuntosCarta, marcadorPuntuacion, actualizarPuntuacion} from "./motor";
-import { obtenerUrlCarta, finalizarPartida  } from "./ui";
-
+import {obtenerPuntosCarta, sumarPuntosCarta, marcadorPuntuacion, actualizarPuntuacion, marcardorACero} from "./motor";
 
 
 
@@ -30,6 +28,22 @@ describe("generarNumeroAleatorio", () => {
     expect(resultado).toBe(numeroEsperado);
   });
 });
+
+
+
+describe("valor del marcador reseteado" , () => {
+  it('deberia de ser 0', () => {
+    //arrange
+
+   const resultadoEsperado: number= 0
+    //act
+    const resultado = marcardorACero()
+
+    //assert
+    expect(resultado).toBe(resultadoEsperado)
+  })
+})
+
 
 describe("Valor de las cartas " , () => {
   it('si es una carta del 1 al 7 deberia obtener 1 punto', () => {
@@ -85,38 +99,3 @@ describe('Actualizar puntuacion', ()=> {
     expect(marcadorPuntuacion).toBe(puntosActuales)
   })
 })      
-
-
-describe('obetener una carta', ()=> {
-  it('debe salir la carta del case 3', () =>{
-    const carta = 3
-    const cartaEsperada = "./img/4_cuatro-copas.jpg"
-
-    const resultado = obtenerUrlCarta(carta)
-
-    expect(resultado).toBe(cartaEsperada)
-
-  })
-  it('deberia salir el back de la carta en el caso default', () =>{
-    const carta = 1
-    const cartaEsperada = "./img/2_dos-copas.jpg"
-
-    const resultado = obtenerUrlCarta(carta)
-
-    expect(resultado).toBe(cartaEsperada)
-
-  })
-})
-
-describe('deberia dar game over cuando marcadorPuntuacion sea mas de 7.5 ', ()=> {
-  it('game over mayor que 7.5 ', () => {
-
-    const marcadorPuntuacion: number = 7.6
-    const resultadoEsperado: string = "GAME OVER"
-
-    const resultado =finalizarPartida(marcadorPuntuacion)
-
-    expect(resultado).toBe(resultadoEsperado)
-
-  })
-})
