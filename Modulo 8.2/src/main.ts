@@ -121,3 +121,27 @@ console.log(activarProtocoloUrgencia(pacientes))
    return pacientes.every((paciente) => (paciente.especialidad === "Pediatra"))
     };
     console.log(HayPacientesDePediatria(pacientes))
+
+
+    
+    interface NumeroPacientesPorEspecialidad {
+  medicoDeFamilia: number;
+  pediatria: number;
+  cardiologia: number;
+}
+
+const cuentaPacientesPorEspecialidad = (
+  pacientes: Pacientes[]
+): NumeroPacientesPorEspecialidad => {
+  let pacienteMedicoDeFamilia : Pacientes[];
+  let pacientesCardiologo : Pacientes[];
+  pacienteMedicoDeFamilia =  pacientes.filter((paciente) => paciente.especialidad == 'Medico de familia');
+  pacientesCardiologo =  pacientes.filter((paciente) => paciente.especialidad == 'Cardiólogo');
+    return {
+      medicoDeFamilia: pacienteMedicoDeFamilia.length,
+      pediatria : pacientePediatria.length,
+      cardiologia : pacientesCardiologo.length
+  }
+ }
+
+console.log(cuentaPacientesPorEspecialidad(pacientes))

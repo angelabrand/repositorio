@@ -207,6 +207,7 @@ const cuentaPacientesPorEspecialidad = (
     obtenPacientesAsignadosAMedicoDeFamilia(pacientes);
   const numeroDePacientesCardiologo =
     obtenPacientesAsignadosACardiologo(pacientes);
+    
   return { medicoDeFamilia: numeroDePacientesMedicoDeFamilia.length,
     pediatria: numeroDePacientesPediatria.length,
     cardiologia: numeroDePacientesCardiologo.length
