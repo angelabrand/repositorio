@@ -87,12 +87,10 @@ console.log(pacientePediatria)
 const obtenPacientesAsignadosAPediatriaYMenorDeDiezAnios = (
   pacientes: Pacientes[]
 ): Pacientes[] => { 
-   return pacientes.filter((paciente)=> pacientePediatria && paciente.edad < 10)}
+   return pacientes.filter((paciente)=> paciente.especialidad === "Pediatra" && paciente.edad < 10)}
 
  console.log(obtenPacientesAsignadosAPediatriaYMenorDeDiezAnios(pacientes))
 
-
-  
 
 
 const activarProtocoloUrgencia = (pacientes: Pacientes[]): boolean => {
