@@ -1,0 +1,30 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #ecfcdb;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 300px);
+  gap: 10px;
+  justify-items: center;
+}
+
+.cardcontainer {
+  width: 250px;
+  height: 250px;
+  background-color: #dba2db;
+  border-radius: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imgs {
+  object-fit: contain;
+  height: 60%;
+  width: 60%;
+}
