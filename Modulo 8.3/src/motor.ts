@@ -267,15 +267,21 @@ const reinciarPartida = (tablero: Tablero): void => {
   barajarCartas(tablero.cartas);
   resetearPuntuacion(tablero);
   cambiarIndiceDeCartas(tablero);
+  volverAVoltearCartas(tablero);
+  resetearCartas(tablero);
+};
+
+const volverAVoltearCartas = (tablero: Tablero): void => {
   for (let i = 0; i < tablero.cartas.length; i++) {
     cartaBocaAbajo("containercards", i);
   }
+};
+const resetearCartas = (tablero: Tablero): void => {
   tablero.cartas.forEach((carta) => {
     carta.estaVuelta = false;
     carta.encontrada = false;
   });
 };
-
 const botonReiniciar = document.getElementById("btn");
 if (
   botonReiniciar !== null &&
