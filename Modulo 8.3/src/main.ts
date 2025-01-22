@@ -51,13 +51,7 @@ if (
 }
 */
 
-import { cartas, tablero } from "./modelo";
-import {
-  barajarCartas,
-  iniciaPartida,
-  sePuedeVoltearLaCarta,
-  voltearLaCarta,
-  divs,
-} from "./motor";
+import { tablero } from "./modelo";
+import { iniciaPartida} from "./motor";
 
 iniciaPartida(tablero);

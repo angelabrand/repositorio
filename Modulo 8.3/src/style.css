@@ -13,6 +13,10 @@ body {
   justify-items: center;
 }
 
+.containercards{
+  perspective: 1000px;
+}
+
 .cardcontainer {
   width: 250px;
   height: 250px;
@@ -21,10 +25,60 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: transform 0.3s; 
+  transform-style: preserve-3d; 
+  cursor: pointer; 
+}
+.cardcontainer:hover {
+ background-color: #a02ca0;
 }
 
+.cardcontainer.flipped {
+  transform: rotateY(180deg); 
+}
 .imgs {
   object-fit: contain;
   height: 60%;
   width: 60%;
+  padding: 10px;
+}
+.parametros{
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: flex-start; 
+  color: black;
+  justify-items: right;
+  position: fixed; 
+  padding: 10px;
+  top: 0;
+  right: 0;
+  margin-right: 80px;
+  margin-top: 60px;
+}
+#puntuacion{
+  font-family: 'poppins', sans-serif;
+  font-weight: 600;
+  font-size: 76px;
+  color: #632d68;
+}
+p{
+  font-family: 'poppins', sans-serif;
+  color: #632d68;
+  font-weight: 600;
+}
+
+#btn {
+  background-color: #df7777;
+  color: white;
+  padding: 15px;
+  border-radius: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#boton:hover{
+  transform: scale(1.1);
 }

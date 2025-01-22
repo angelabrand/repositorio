@@ -37,7 +37,6 @@ export const crearColeccionDeCartasInicial = (
   const coleccionDeCartas: Carta[] = cartasDuplicadas.map((infoCarta) =>
     crearCartaInicial(infoCarta.idFoto, infoCarta.imagen)
   );
-  console.log(coleccionDeCartas);
   return coleccionDeCartas;
 };
 
@@ -55,11 +54,13 @@ export interface Tablero {
   estadoPartida: EstadoPartida;
   indiceCartaVolteadaA?: number;
   indiceCartaVolteadaB?: number;
+  puntuacion: number;
 }
 
 const crearTableroInicial = (): Tablero => ({
   cartas: cartas,
   estadoPartida: "PartidaNoIniciada",
+  puntuacion: 0,
 });
 
 export let tablero: Tablero = crearTableroInicial();
