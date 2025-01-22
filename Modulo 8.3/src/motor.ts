@@ -28,6 +28,7 @@ export const sePuedeVoltearLaCarta = (
 };
 
 const cambiarIndiceDeCartas = (tablero: Tablero): void => {
+  tablero.estadoPartida = "CeroCartasLevantadas";
   tablero.indiceCartaVolteadaA = undefined;
   tablero.indiceCartaVolteadaB = undefined;
 };
@@ -39,15 +40,22 @@ export const voltearLaCarta = (tablero: Tablero, indice: number): void => {
     carta.estaVuelta = true;
     cambiarSrcImagen("containercards", indice, carta);
 
-    if (tablero.indiceCartaVolteadaA == undefined) {
+    if (
+      tablero.estadoPartida === "PartidaNoIniciada" ||
+      tablero.estadoPartida === "CeroCartasLevantadas"
+    ) {
       tablero.indiceCartaVolteadaA = indice;
-    } else if (tablero.indiceCartaVolteadaB == undefined) {
+      tablero.estadoPartida = "UnaCartaLevantada";
+    } else if (tablero.estadoPartida === "UnaCartaLevantada") {
       tablero.indiceCartaVolteadaB = indice;
+      tablero.estadoPartida = "DosCartasLevantadas";
     }
   }
 };
 
 const divClick = (event: MouseEvent, tablero: Tablero): void => {
+  console.log("Antes");
+  console.log(tablero);
   if (
     event.currentTarget !== null &&
     event.currentTarget !== undefined &&
@@ -59,11 +67,7 @@ const divClick = (event: MouseEvent, tablero: Tablero): void => {
     if (indiceArrayStr !== null && indiceImagenStr !== null) {
       const indiceArray = Number(indiceArrayStr);
       voltearLaCarta(tablero, indiceArray);
-
-      if (
-        tablero.indiceCartaVolteadaA !== undefined &&
-        tablero.indiceCartaVolteadaB !== undefined
-      ) {
+      if (tablero.estadoPartida === "DosCartasLevantadas") {
         if (
           sonPareja(
             tablero.indiceCartaVolteadaA,
@@ -88,10 +92,11 @@ const divClick = (event: MouseEvent, tablero: Tablero): void => {
       }
     }
   }
+  console.log("Despues");
+  console.log(tablero);
 };
 
 const actualizarPuntuacion = (tablero: Tablero): void => {
-  tablero.puntuacion += 1;
   let puntuacionActualizada = document.getElementById("puntuacion");
   let textoPuntuacion = document.getElementById("textoPuntuacion");
   if (
@@ -104,7 +109,7 @@ const actualizarPuntuacion = (tablero: Tablero): void => {
       puntuacionActualizada !== undefined &&
       puntuacionActualizada instanceof HTMLDivElement
     ) {
-      if (tablero.puntuacion === 6) {
+      if (tablero.estadoPartida === "PartidaCompleta") {
         puntuacionActualizada.innerHTML = "🏆";
         textoPuntuacion.innerHTML = "¡HAS GANADO!";
       } else {
@@ -115,6 +120,7 @@ const actualizarPuntuacion = (tablero: Tablero): void => {
 };
 const resetearPuntuacion = (tablero: Tablero): void => {
   tablero.puntuacion = 0;
+  tablero.estadoPartida = "PartidaNoIniciada";
   let puntuacionActualizada = document.getElementById("puntuacion");
   let textoPuntuacion = document.getElementById("textoPuntuacion");
   if (
@@ -181,10 +187,13 @@ divs.forEach((div) => {
 });
 
 export const sonPareja = (
-  indiceA: number,
-  indiceB: number,
+  indiceA: number | undefined,
+  indiceB: number | undefined,
   tablero: Tablero
 ): boolean => {
+  if (indiceA === undefined || indiceB === undefined) {
+    return false;
+  }
   if (tablero.cartas[indiceA].idFoto === tablero.cartas[indiceB].idFoto) {
     return true;
   }
@@ -194,14 +203,21 @@ export const sonPareja = (
 /* Aquí asumimos ya que son pareja, lo que hacemos es marcarlas como encontradas y comprobar si la partida esta completa. */
 const parejaEncontrada = (
   tablero: Tablero,
-  indiceA: number,
-  indiceB: number
+  indiceA: number | undefined,
+  indiceB: number | undefined
 ): void => {
+  if (indiceA === undefined || indiceB === undefined) {
+    return;
+  }
   //marcarlas como encontradas
   tablero.cartas[indiceA].encontrada = true;
   tablero.cartas[indiceB].encontrada = true;
+  tablero.puntuacion += 1;
   cambiarIndiceDeCartas(tablero);
+  esPartidaCompleta(tablero);
   actualizarPuntuacion(tablero);
+
+  tablero.estadoPartida = "CeroCartasLevantadas";
 };
 //comprobar si la partida esta completa
 
@@ -209,24 +225,33 @@ const parejaEncontrada = (
 
 const parejaNoEncontrada = async (
   tablero: Tablero,
-  indiceA: number,
-  indiceB: number
+  indiceA: number | undefined,
+  indiceB: number | undefined
 ): Promise<void> => {
+  if (indiceA === undefined || indiceB === undefined) {
+    return;
+  }
   await new Promise((resolve) => setTimeout(resolve, 500));
   tablero.cartas[indiceA].estaVuelta = false;
   tablero.cartas[indiceB].estaVuelta = false;
   cartaBocaAbajo("containercards", indiceA);
   cartaBocaAbajo("containercards", indiceB);
   cambiarIndiceDeCartas(tablero);
+  tablero.estadoPartida = "CeroCartasLevantadas";
 };
 
-/* !Esto lo podemos comprobar o bien utilizando every, o bien utilizando un contador (cartasEncontradas)
- */
+//Esto lo podemos comprobar o bien utilizando every, o bien utilizando un contador (cartasEncontradas)
+
 export const esPartidaCompleta = (tablero: Tablero): boolean => {
-  return tablero.cartas.every((carta) => carta.encontrada);
+  if (tablero.cartas.every((carta) => carta.encontrada)) {
+    tablero.estadoPartida = "PartidaCompleta";
+    return true;
+  }
+  return false;
 };
 
 export const iniciaPartida = (tablero: Tablero): void => {
+  tablero.estadoPartida = "PartidaNoIniciada";
   document.querySelectorAll(".cardcontainer").forEach((card) => {
     card.addEventListener("click", () => {
       card.classList.toggle("flipped");
@@ -238,12 +263,17 @@ export const iniciaPartida = (tablero: Tablero): void => {
 };
 
 const reinciarPartida = (tablero: Tablero): void => {
+  tablero.estadoPartida = "PartidaNoIniciada";
   barajarCartas(tablero.cartas);
   resetearPuntuacion(tablero);
   cambiarIndiceDeCartas(tablero);
   for (let i = 0; i < tablero.cartas.length; i++) {
     cartaBocaAbajo("containercards", i);
   }
+  tablero.cartas.forEach((carta) => {
+    carta.estaVuelta = false;
+    carta.encontrada = false;
+  });
 };
 
 const botonReiniciar = document.getElementById("btn");
