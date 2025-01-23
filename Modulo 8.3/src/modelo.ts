@@ -29,16 +29,11 @@ const crearCartaInicial = (idFoto: number, imagen: string): Carta => ({
 export const crearColeccionDeCartasInicial = (
   infoCartas: infoCarta[]
 ): Carta[] => {
-  const cartasDuplicadas: infoCarta[] = infoCartas.flatMap((infoCarta) => [
-    infoCarta,
-    infoCarta,
-  ]);
-  const coleccionDeCartas: Carta[] = cartasDuplicadas.map((infoCarta) =>
+  const coleccionDeCartas: Carta[] = infoCartas.map((infoCarta) =>
     crearCartaInicial(infoCarta.idFoto, infoCarta.imagen)
   );
-  return coleccionDeCartas;
+  return [...coleccionDeCartas, ...coleccionDeCartas];
 };
-
 export let cartas: Carta[] = crearColeccionDeCartasInicial(infoCartas);
 
 type EstadoPartida =

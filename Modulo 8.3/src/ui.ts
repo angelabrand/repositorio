@@ -12,11 +12,8 @@ const voltearLaCarta = (tablero: Tablero, indice: number): void => {
     let carta: Carta = tablero.cartas[indice];
     carta.estaVuelta = true;
     cambiarSrcImagen("containercards", indice, carta);
-
-    if (
-      tablero.estadoPartida === "PartidaNoIniciada" ||
-      tablero.estadoPartida === "CeroCartasLevantadas"
-    ) {
+    console.log(indice);
+    if (tablero.estadoPartida === "CeroCartasLevantadas") {
       tablero.indiceCartaVolteadaA = indice;
       tablero.estadoPartida = "UnaCartaLevantada";
     } else if (tablero.estadoPartida === "UnaCartaLevantada") {
@@ -39,8 +36,8 @@ export const divClick = (event: MouseEvent, tablero: Tablero): void => {
       voltearLaCarta(tablero, indiceArray);
       const indiceA = tablero.indiceCartaVolteadaA;
       const indiceB = tablero.indiceCartaVolteadaB;
+      console.log(tablero);
       if (indiceA !== undefined && indiceB !== undefined) {
-        tablero.estadoPartida === "DosCartasLevantadas";
         if (sonPareja(indiceA, indiceB, tablero)) {
           parejaEncontrada(tablero, indiceA, indiceB);
         } else {
@@ -143,9 +140,6 @@ const sonPareja = (
   indiceB: number,
   tablero: Tablero
 ): boolean => {
-  if (indiceA === undefined || indiceB === undefined) {
-    return false;
-  }
   if (tablero.cartas[indiceA].idFoto === tablero.cartas[indiceB].idFoto) {
     return true;
   }
@@ -157,16 +151,12 @@ const parejaEncontrada = (
   indiceA: number,
   indiceB: number
 ): void => {
-  if (indiceA === undefined || indiceB === undefined) {
-    return;
-  }
   tablero.cartas[indiceA].encontrada = true;
   tablero.cartas[indiceB].encontrada = true;
   tablero.puntuacion += 1;
   cambiarIndiceDeCartas(tablero);
   esPartidaCompleta(tablero);
   actualizarPuntuacion(tablero);
-  tablero.estadoPartida = "CeroCartasLevantadas";
 };
 
 const parejaNoEncontrada = (
