@@ -25,7 +25,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.3s; 
+  transition: 0.3s; 
   transform-style: preserve-3d; 
   cursor: pointer; 
 }
@@ -34,7 +34,7 @@ body {
 }
 
 .cardcontainer.flipped {
-  transform: rotateY(180deg); 
+ transform: rotateY(360deg);
 }
 .imgs {
   object-fit: contain;
