@@ -33,7 +33,6 @@ export const crearColeccionDeCartasInicial = (
     infoCarta,
     infoCarta,
   ]);
-
   const coleccionDeCartas: Carta[] = cartasDuplicadas.map((infoCarta) =>
     crearCartaInicial(infoCarta.idFoto, infoCarta.imagen)
   );

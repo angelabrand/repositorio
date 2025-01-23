@@ -1,30 +1,10 @@
-import { barajarCartas } from "./motor";
-import { Carta, tablero, Tablero } from "./modelo";
-
-export const sePuedeVoltearLaCarta = (
-  tablero: Tablero,
-  indice: number
-): boolean => {
-  let nuevaCarta: Carta = tablero.cartas[indice];
-
-  if (
-    tablero.indiceCartaVolteadaA !== undefined &&
-    tablero.indiceCartaVolteadaB !== undefined
-  ) {
-    return false;
-  }
-  if (nuevaCarta.encontrada == false && nuevaCarta.estaVuelta == false) {
-    return true;
-  }
-
-  return false;
-};
-
-const cambiarIndiceDeCartas = (tablero: Tablero): void => {
-  tablero.estadoPartida = "CeroCartasLevantadas";
-  tablero.indiceCartaVolteadaA = undefined;
-  tablero.indiceCartaVolteadaB = undefined;
-};
+import {
+  barajarCartas,
+  cambiarIndiceDeCartas,
+  sePuedeVoltearLaCarta,
+  resetearCartas,
+} from "./motor";
+import { Carta, Tablero } from "./modelo";
 
 const voltearLaCarta = (tablero: Tablero, indice: number): void => {
   let sePuedeVoltear = sePuedeVoltearLaCarta(tablero, indice);
@@ -54,29 +34,17 @@ export const divClick = (event: MouseEvent, tablero: Tablero): void => {
   ) {
     const target = event.currentTarget;
     const indiceArrayStr = target.getAttribute("data-indice-array");
-    const indiceImagenStr = target.getAttribute("data-indice-imagen");
-    if (indiceArrayStr !== null && indiceImagenStr !== null) {
+    if (indiceArrayStr !== null) {
       const indiceArray = Number(indiceArrayStr);
       voltearLaCarta(tablero, indiceArray);
-      if (tablero.estadoPartida === "DosCartasLevantadas") {
-        if (
-          sonPareja(
-            tablero.indiceCartaVolteadaA,
-            tablero.indiceCartaVolteadaB,
-            tablero
-          )
-        ) {
-          parejaEncontrada(
-            tablero,
-            tablero.indiceCartaVolteadaA,
-            tablero.indiceCartaVolteadaB
-          );
+      const indiceA = tablero.indiceCartaVolteadaA;
+      const indiceB = tablero.indiceCartaVolteadaB;
+      if (indiceA !== undefined && indiceB !== undefined) {
+        tablero.estadoPartida === "DosCartasLevantadas";
+        if (sonPareja(indiceA, indiceB, tablero)) {
+          parejaEncontrada(tablero, indiceA, indiceB);
         } else {
-          parejaNoEncontrada(
-            tablero,
-            tablero.indiceCartaVolteadaA,
-            tablero.indiceCartaVolteadaB
-          );
+          parejaNoEncontrada(tablero, indiceA, indiceB);
         }
       }
     }
@@ -168,9 +136,11 @@ function cambiarSrcImagen(divId: string, indice: number, carta: Carta): void {
   }
 }
 
+//** Match de las cartas */
+
 const sonPareja = (
-  indiceA: number | undefined,
-  indiceB: number | undefined,
+  indiceA: number,
+  indiceB: number,
   tablero: Tablero
 ): boolean => {
   if (indiceA === undefined || indiceB === undefined) {
@@ -184,8 +154,8 @@ const sonPareja = (
 
 const parejaEncontrada = (
   tablero: Tablero,
-  indiceA: number | undefined,
-  indiceB: number | undefined
+  indiceA: number,
+  indiceB: number
 ): void => {
   if (indiceA === undefined || indiceB === undefined) {
     return;
@@ -199,21 +169,22 @@ const parejaEncontrada = (
   tablero.estadoPartida = "CeroCartasLevantadas";
 };
 
-const parejaNoEncontrada = async (
+const parejaNoEncontrada = (
   tablero: Tablero,
-  indiceA: number | undefined,
-  indiceB: number | undefined
-): Promise<void> => {
+  indiceA: number,
+  indiceB: number
+): void => {
   if (indiceA === undefined || indiceB === undefined) {
     return;
   }
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  tablero.cartas[indiceA].estaVuelta = false;
-  tablero.cartas[indiceB].estaVuelta = false;
-  cartaBocaAbajo("containercards", indiceA);
-  cartaBocaAbajo("containercards", indiceB);
-  cambiarIndiceDeCartas(tablero);
-  tablero.estadoPartida = "CeroCartasLevantadas";
+  setTimeout(() => {
+    tablero.cartas[indiceA].estaVuelta = false;
+    tablero.cartas[indiceB].estaVuelta = false;
+    cartaBocaAbajo("containercards", indiceA);
+    cartaBocaAbajo("containercards", indiceB);
+    cambiarIndiceDeCartas(tablero);
+    tablero.estadoPartida = "CeroCartasLevantadas";
+  }, 500);
 };
 
 const esPartidaCompleta = (tablero: Tablero): boolean => {
@@ -224,20 +195,7 @@ const esPartidaCompleta = (tablero: Tablero): boolean => {
   return false;
 };
 
-const iniciaPartida = (tablero: Tablero): void => {
-  tablero.estadoPartida = "PartidaNoIniciada";
-  document.querySelectorAll(".cardcontainer").forEach((card) => {
-    card.addEventListener("click", () => {
-      card.classList.toggle("flipped");
-    });
-  });
-  barajarCartas(tablero.cartas);
-  tablero.puntuacion = 0;
-  cambiarIndiceDeCartas(tablero);
-};
-
-iniciaPartida(tablero);
-
+//** Reiniciar partida */
 export const reinciarPartida = (tablero: Tablero): void => {
   tablero.estadoPartida = "PartidaNoIniciada";
   barajarCartas(tablero.cartas);
@@ -251,10 +209,4 @@ const volverAVoltearCartas = (tablero: Tablero): void => {
   for (let i = 0; i < tablero.cartas.length; i++) {
     cartaBocaAbajo("containercards", i);
   }
-};
-const resetearCartas = (tablero: Tablero): void => {
-  tablero.cartas.forEach((carta) => {
-    carta.estaVuelta = false;
-    carta.encontrada = false;
-  });
 };
