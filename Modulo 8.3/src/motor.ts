@@ -105,31 +105,3 @@ const iniciaPartida = (tablero: Tablero): void => {
 };
 
 iniciaPartida(tablero);
-
-export function encontrarDivPorIndiceArray(
-  divId: string,
-  indice: number
-): HTMLDivElement | null {
-  const contenedor = document.getElementById(divId) as HTMLDivElement;
-  const divs = contenedor.querySelectorAll("div[data-indice-array]");
-  const divsArray = Array.from(divs);
-  for (const div of divsArray) {
-    if (div.getAttribute("data-indice-array") === indice.toString()) {
-      return div as HTMLDivElement;
-    }
-  }
-  return null;
-}
-
-export function cartaBocaAbajo(divId: string, indice: number): void {
-  const divSeleccionado = encontrarDivPorIndiceArray(divId, indice);
-
-  if (divSeleccionado) {
-    const img = divSeleccionado.querySelector("img") as HTMLImageElement;
-    if (img) {
-      img.src = "";
-    } else {
-      console.error("No hay imagen dentro del div.");
-    }
-  }
-}
