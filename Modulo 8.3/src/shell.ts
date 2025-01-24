@@ -1,9 +1,13 @@
 import { reinciarPartida, divClick } from "./ui";
 import { tablero } from "./modelo";
 
-const divs = document.querySelectorAll<HTMLDivElement>(".cardcontainer");
-divs.forEach((div) => {
-  div.addEventListener("click", (event) => divClick(event, tablero));
+tablero.cartas.forEach((_, index) => {
+  const dataIndiceId = `[data-indice-array="${index}"]`;
+  const elementoDiv = document.querySelector(`div${dataIndiceId}`);
+
+  if (elementoDiv instanceof HTMLDivElement) {
+    elementoDiv.addEventListener("click", (event) => divClick(index));
+  }
 });
 
 const botonReiniciar = document.getElementById("btn");

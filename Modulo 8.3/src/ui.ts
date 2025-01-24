@@ -4,46 +4,44 @@ import {
   sePuedeVoltearLaCarta,
   resetearCartas,
 } from "./motor";
-import { Carta, Tablero } from "./modelo";
+import {
+  voltearLaCarta,
+  sonPareja,
+  parejaEncontrada,
+  parejaNoEncontrada,
+  esPartidaCompleta,
+} from "./motor";
+import { Tablero, tablero } from "./modelo";
 
-const voltearLaCarta = (tablero: Tablero, indice: number): void => {
-  let sePuedeVoltear = sePuedeVoltearLaCarta(tablero, indice);
-  if (sePuedeVoltear) {
-    let carta: Carta = tablero.cartas[indice];
-    carta.estaVuelta = true;
-    cambiarSrcImagen("containercards", indice, carta);
-    console.log(indice);
-    if (tablero.estadoPartida === "CeroCartasLevantadas") {
-      tablero.indiceCartaVolteadaA = indice;
-      tablero.estadoPartida = "UnaCartaLevantada";
-    } else if (tablero.estadoPartida === "UnaCartaLevantada") {
-      tablero.indiceCartaVolteadaB = indice;
-      tablero.estadoPartida = "DosCartasLevantadas";
-    }
+export const divClick = (indiceArray: number): void => {
+  if (sePuedeVoltearLaCarta(tablero, indiceArray)) {
+    voltearLaCarta(tablero, indiceArray);
+    cambiarSrcImagen(indiceArray);
+    esLaSegundaCarta();
+  } else {
+    console.log("no se puede dar la vuelta a la carta");
   }
 };
 
-export const divClick = (event: MouseEvent, tablero: Tablero): void => {
-  if (
-    event.currentTarget !== null &&
-    event.currentTarget !== undefined &&
-    event.currentTarget instanceof HTMLDivElement
-  ) {
-    const target = event.currentTarget;
-    const indiceArrayStr = target.getAttribute("data-indice-array");
-    if (indiceArrayStr !== null) {
-      const indiceArray = Number(indiceArrayStr);
-      voltearLaCarta(tablero, indiceArray);
-      const indiceA = tablero.indiceCartaVolteadaA;
-      const indiceB = tablero.indiceCartaVolteadaB;
-      console.log(tablero);
-      if (indiceA !== undefined && indiceB !== undefined) {
-        if (sonPareja(indiceA, indiceB, tablero)) {
-          parejaEncontrada(tablero, indiceA, indiceB);
-        } else {
-          parejaNoEncontrada(tablero, indiceA, indiceB);
-        }
+const esLaSegundaCarta = () => {
+  const indiceA = tablero.indiceCartaVolteadaA;
+  const indiceB = tablero.indiceCartaVolteadaB;
+
+  if (indiceA !== undefined && indiceB !== undefined) {
+    if (sonPareja(indiceA, indiceB, tablero)) {
+      parejaEncontrada(tablero, indiceA, indiceB);
+      actualizarPuntuacion(tablero);
+      if (esPartidaCompleta(tablero)) {
+        tablero.estadoPartida = "PartidaCompleta";
+        actualizarPuntuacion(tablero);
+        console.log("enhorabuena has encontrado todas las parejas");
       }
+    } else {
+      parejaNoEncontrada(tablero, indiceA, indiceB);
+      setTimeout(() => {
+        cartaBocaAbajo("containercards", indiceA);
+        cartaBocaAbajo("containercards", indiceB);
+      }, 500);
     }
   }
 };
@@ -118,74 +116,15 @@ function cartaBocaAbajo(divId: string, indice: number): void {
   }
 }
 
-function cambiarSrcImagen(divId: string, indice: number, carta: Carta): void {
-  const divSeleccionado = encontrarDivPorIndiceArray(divId, indice);
+function cambiarSrcImagen(indiceArray: number): void {
+  const dataIndiceId = `[data-indice-array="${indiceArray}"]`;
+  const elementoImg = document.querySelector(`img${dataIndiceId}`);
 
-  if (divSeleccionado) {
-    const img = divSeleccionado.querySelector("img") as HTMLImageElement;
-    if (img) {
-      img.src = carta.imagen;
-    } else {
-      console.error("No se encontró la imagen dentro del div.");
-    }
-  } else {
-    console.error("Div no encontrado.");
+  if (elementoImg instanceof HTMLImageElement) {
+    elementoImg.src = tablero.cartas[indiceArray].imagen;
   }
 }
 
-//** Match de las cartas */
-
-const sonPareja = (
-  indiceA: number,
-  indiceB: number,
-  tablero: Tablero
-): boolean => {
-  if (tablero.cartas[indiceA].idFoto === tablero.cartas[indiceB].idFoto) {
-    return true;
-  }
-  return false;
-};
-
-const parejaEncontrada = (
-  tablero: Tablero,
-  indiceA: number,
-  indiceB: number
-): void => {
-  tablero.cartas[indiceA].encontrada = true;
-  tablero.cartas[indiceB].encontrada = true;
-  tablero.puntuacion += 1;
-  cambiarIndiceDeCartas(tablero);
-  esPartidaCompleta(tablero);
-  actualizarPuntuacion(tablero);
-};
-
-const parejaNoEncontrada = (
-  tablero: Tablero,
-  indiceA: number,
-  indiceB: number
-): void => {
-  if (indiceA === undefined || indiceB === undefined) {
-    return;
-  }
-  setTimeout(() => {
-    tablero.cartas[indiceA].estaVuelta = false;
-    tablero.cartas[indiceB].estaVuelta = false;
-    cartaBocaAbajo("containercards", indiceA);
-    cartaBocaAbajo("containercards", indiceB);
-    cambiarIndiceDeCartas(tablero);
-    tablero.estadoPartida = "CeroCartasLevantadas";
-  }, 500);
-};
-
-const esPartidaCompleta = (tablero: Tablero): boolean => {
-  if (tablero.cartas.every((carta) => carta.encontrada)) {
-    tablero.estadoPartida = "PartidaCompleta";
-    return true;
-  }
-  return false;
-};
-
-//** Reiniciar partida */
 export const reinciarPartida = (tablero: Tablero): void => {
   tablero.estadoPartida = "PartidaNoIniciada";
   barajarCartas(tablero.cartas);
