@@ -34,6 +34,7 @@ export const crearColeccionDeCartasInicial = (
   );
   return [...coleccionDeCartas, ...coleccionDeCartas];
 };
+
 export let cartas: Carta[] = crearColeccionDeCartasInicial(infoCartas);
 
 type EstadoPartida =
