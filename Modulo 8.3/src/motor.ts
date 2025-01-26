@@ -17,7 +17,6 @@ export const voltearLaCarta = (tablero: Tablero, indice: number): void => {
     tablero.indiceCartaVolteadaB = indice;
     tablero.estadoPartida = "DosCartasLevantadas";
   }
-  //}
 };
 
 export const sonPareja = (
