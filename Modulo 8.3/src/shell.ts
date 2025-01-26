@@ -6,7 +6,7 @@ tablero.cartas.forEach((_, index) => {
   const elementoDiv = document.querySelector(`div${dataIndiceId}`);
 
   if (elementoDiv instanceof HTMLDivElement) {
-    elementoDiv.addEventListener("click", (event) => divClick(index));
+    elementoDiv.addEventListener("click", () => divClick(index));
   }
 });
 

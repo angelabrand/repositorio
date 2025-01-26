@@ -1,6 +1,5 @@
-import { Carta, Tablero, cartas, tablero } from "./modelo";
+import { Carta, Tablero, tablero } from "./modelo";
 
-cartas;
 export const barajarCartas = (cartas: Carta[]): Carta[] => {
   for (let i = cartas.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -24,10 +23,8 @@ export const sonPareja = (
   indiceB: number,
   tablero: Tablero
 ): boolean => {
-  if (tablero.cartas[indiceA].idFoto === tablero.cartas[indiceB].idFoto) {
-    return true;
-  }
-  return false;
+  return tablero.cartas[indiceA].idFoto === tablero.cartas[indiceB].idFoto;
+
 };
 
 export const parejaEncontrada = (
@@ -53,10 +50,8 @@ export const parejaNoEncontrada = (
 };
 
 export const esPartidaCompleta = (tablero: Tablero): boolean => {
-  if (tablero.cartas.every((carta) => carta.encontrada)) {
-    return true;
-  }
-  return false;
+  return tablero.cartas.every((carta) => carta.encontrada);
+
 };
 
 export const cambiarIndiceDeCartas = (tablero: Tablero): void => {
@@ -77,11 +72,8 @@ export const sePuedeVoltearLaCarta = (
   ) {
     return false;
   }
-  if (!nuevaCarta.encontrada && !nuevaCarta.estaVuelta) {
-    return true;
-  }
+  return !nuevaCarta.encontrada && !nuevaCarta.estaVuelta;
 
-  return false;
 };
 
 export const resetearCartas = (tablero: Tablero): void => {
