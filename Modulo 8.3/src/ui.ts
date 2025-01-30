@@ -23,6 +23,15 @@ export const divClick = (indiceArray: number): void => {
   }
 };
 
+const efectoCartas = () => {
+  document.querySelectorAll(".cardcontainer").forEach((card) => {
+    card.addEventListener("click", () => {
+      card.classList.toggle("flipped");
+    });
+  });
+};
+efectoCartas();
+
 const esLaSegundaCarta = () => {
   const indiceA = tablero.indiceCartaVolteadaA;
   const indiceB = tablero.indiceCartaVolteadaB;
@@ -126,7 +135,6 @@ function cambiarSrcImagen(indiceArray: number): void {
 }
 
 export const reinciarPartida = (tablero: Tablero): void => {
-  tablero.estadoPartida = "PartidaNoIniciada";
   barajarCartas(tablero.cartas);
   resetearPuntuacion(tablero);
   cambiarIndiceDeCartas(tablero);

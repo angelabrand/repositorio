@@ -24,7 +24,6 @@ export const sonPareja = (
   tablero: Tablero
 ): boolean => {
   return tablero.cartas[indiceA].idFoto === tablero.cartas[indiceB].idFoto;
-
 };
 
 export const parejaEncontrada = (
@@ -51,7 +50,6 @@ export const parejaNoEncontrada = (
 
 export const esPartidaCompleta = (tablero: Tablero): boolean => {
   return tablero.cartas.every((carta) => carta.encontrada);
-
 };
 
 export const cambiarIndiceDeCartas = (tablero: Tablero): void => {
@@ -73,7 +71,6 @@ export const sePuedeVoltearLaCarta = (
     return false;
   }
   return !nuevaCarta.encontrada && !nuevaCarta.estaVuelta;
-
 };
 
 export const resetearCartas = (tablero: Tablero): void => {
@@ -84,15 +81,10 @@ export const resetearCartas = (tablero: Tablero): void => {
 };
 
 const iniciaPartida = (tablero: Tablero): void => {
-  tablero.estadoPartida = "PartidaNoIniciada";
-  document.querySelectorAll(".cardcontainer").forEach((card) => {
-    card.addEventListener("click", () => {
-      card.classList.toggle("flipped");
-    });
-  });
-  barajarCartas(tablero.cartas);
-  tablero.puntuacion = 0;
+  const cartasBarajadas = barajarCartas(tablero.cartas);
+  tablero.cartas = { ...cartasBarajadas };
   cambiarIndiceDeCartas(tablero);
+  tablero.puntuacion = 0;
 };
 
 iniciaPartida(tablero);
