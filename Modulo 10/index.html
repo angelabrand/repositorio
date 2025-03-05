@@ -14,14 +14,15 @@
           <form class="formulario">
             <div class="grupo-formulario">
             <label for="search">Buscar personaje:</label>
-          <input type="text" name="search" id="search"></div> 
+          <input type="search" name="search" id="search"></div> 
         <div class="grupo-formulario">
-          <button type="submit" class="btn"> Filtrar
+          <button type="button" class="btn" id="btn-filtro"> Filtrar
           </button>
         </div> </form>
         </div>
       </div>      
         <div id="listado-personajes" class="listado-personajes"></div>
          <script type="module" src="/src/listado-personajes.ts"></script>
+         <script type="module" src="/src/buscador/buscador.ts"></script>
   </body>
 </html>

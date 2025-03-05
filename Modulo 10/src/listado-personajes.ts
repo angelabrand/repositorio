@@ -1,5 +1,6 @@
 import { obtenerPersonajes } from "./listado-personajes-api";
 import { Personaje } from "./listado-personajes-model";
+import { setUp } from "./buscador/buscador";
 
 const crearElementoImagen = (
   imagen: string,
@@ -23,7 +24,6 @@ const crearElementoH4 = (texto: string): HTMLParagraphElement => {
 };
 
 const crearContenedorPersonaje = (personaje: Personaje): HTMLDivElement => {
-  console.log(personaje);
   const elementoPersonaje = document.createElement("div");
   elementoPersonaje.classList.add("personaje-contenedor");
   elementoPersonaje.appendChild(
@@ -43,12 +43,11 @@ const crearContenedorPersonaje = (personaje: Personaje): HTMLDivElement => {
   return elementoPersonaje;
 };
 
-const pintarPersonajes = async () => {
-  const personajes = await obtenerPersonajes();
-  console.log(personajes);
+export const pintarPersonajes = (personajes: Personaje[]) => {
   const contenedor = document.getElementById("listado-personajes");
 
   if (contenedor && contenedor instanceof HTMLDivElement) {
+    contenedor.innerHTML = "";
     personajes.forEach((personaje) => {
       const contenedorPersonaje = crearContenedorPersonaje(personaje);
       contenedor.appendChild(contenedorPersonaje);
@@ -56,4 +55,7 @@ const pintarPersonajes = async () => {
   }
 };
 
-document.addEventListener("DOMContentLoaded", pintarPersonajes);
+const listaPersonajes = await obtenerPersonajes();
+pintarPersonajes(listaPersonajes);
+
+setUp();
