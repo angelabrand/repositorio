@@ -1,6 +1,6 @@
 import { obtenerPersonajes } from "../listado-personajes-api";
 import { Personaje } from "../listado-personajes-model";
-import { pintarPersonajes } from "../listado-personajes";
+import { pintarPersonajes } from "../listado-personajes.helpers";
 
 export const setUp = () => {
   let buscar = document.getElementById("btn-filtro");
