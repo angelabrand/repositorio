@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+:root {
+    --bg-color: rgb(234, 236, 255);
+    --color-primary: #000000;
+    --color-secondary: #9b3f2f;
+ --font-family: "roboto", serif;
+}
+
+
+body {
+    height: 100vh;
+    font-family: var(--font-family);
+    line-height: 2;
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--color-primary);
+    margin-bottom: 10dvh;
+    text-decoration: underline;
+   }
+
+.root{
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.formulario-contenedor{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: right;
+}
+
+.formulario{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 2vh;
+    align-items: flex-end;  
+}
+
+#search{
+    cursor: text;
+    width: 60dvh;
+    height: 40px;
+    border: var(--color-primary) solid;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin-top: 10px;
+}
+.btn {
+    cursor: pointer;
+    width: 50px;
+    border-style: none;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+}
+
+.btn:hover {
+    text-decoration: underline;
+    text-decoration-color: black;
+    text-decoration-style: wavy;
+}
