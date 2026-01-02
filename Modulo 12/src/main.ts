@@ -156,6 +156,7 @@ class tourOperador extends total {
     super(reservas, 100, 100);
     this.descuento = descuento;
   }
+
   calcularTotal(): number {
     return (
       (this.calcularSubtotal() - this.calcularSubtotal() * this.descuento) *
