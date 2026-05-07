@@ -1,6 +1,3 @@
-import "./style.css";
-
-console.log("Hello Typescript!");
 
 interface Reserva {
   tipoHabitacion: "standard" | "suite";

@@ -1,0 +1,60 @@
+# -----------------------------
+# OS / archivos temporales
+# -----------------------------
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+*.swo
+
+# -----------------------------
+# Logs
+# -----------------------------
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# -----------------------------
+# Dependencias
+# -----------------------------
+**/node_modules/
+
+# -----------------------------
+# Build / cobertura / cachés
+# -----------------------------
+**/dist/
+**/build/
+**/coverage/
+**/.cache/
+**/.parcel-cache/
+**/.turbo/
+**/.vite/
+**/.next/
+**/out/
+
+# -----------------------------
+# Entornos y secretos
+# -----------------------------
+**/.env
+**/.env.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+
+# -----------------------------
+# TypeScript
+# -----------------------------
+**/*.tsbuildinfo
+
+# -----------------------------
+# IDEs
+# -----------------------------
+.idea/*
+!.idea/.gitignore
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+
