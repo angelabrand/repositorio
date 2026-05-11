@@ -23,6 +23,22 @@
       "name": "Ahorro",
       "balance": 8500,
       "lastTransaction": "2019-11-15T08:29:04"
+    },
+    {
+      "iban": "AD21 0870 0092 28X8 0903 7161",
+      "name": "CASA",
+      "type": "1",
+      "balance": 0,
+      "lastTransaction": "2026-05-07T17:11:59.047Z",
+      "id": "yK2RJC1"
+    },
+    {
+      "iban": "AT59 9906 6099 1733 0430",
+      "name": "CASA",
+      "type": "2",
+      "balance": 0,
+      "lastTransaction": "2026-05-11T15:36:43.542Z",
+      "id": "Mgua7_o"
     }
   ],
   "movements": [
